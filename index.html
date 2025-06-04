@@ -8,13 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dist/output.css">
 </head>
-<body class="flex flex-col min-h-screen bg-gray-900 text-gray-200">
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <main class="main-container p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-2xl animate-fadeIn">
+    <div class="main-container p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-2xl animate-fadeIn">
         <h1 class="text-3xl sm:text-4xl font-bold text-center text-blue-300 mb-8 futuristic-title">CONSULTA CNPJ</h1>
 
         <form id="cnpjForm" class="space-y-6">
-            <main>
+            <div>
                 <label for="cnpj" class="block text-sm font-medium text-gray-300 mb-1">CNPJ:</label>
                 <input type="text" id="cnpj" name="cnpj"
                        class="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base custom-input"
@@ -29,16 +29,16 @@
             </button>
         </form>
 
-        <main id="loading" class="loader" style="display: none;"></main>
+        <div id="loading" class="loader" style="display: none;"></main>
 
-        <main id="errorMessage"
+        <div id="errorMessage"
              class="mt-6 p-4 bg-red-700/30 border border-red-500 text-red-300 rounded-lg text-sm animate-fadeIn"
              style="display: none;" aria-live="assertive">
         </main>
 
-        <main id="results" class="mt-10 animate-slideInUp" style="display: none;" aria-live="polite">
+        <div id="results" class="mt-10 animate-slideInUp" style="display: none;" aria-live="polite">
             <h2 class="text-2xl sm:text-3xl font-semibold text-blue-300 mb-6 border-b border-gray-700 pb-3 futuristic-title">DADOS DA EMPRESA</h2>
-            <main id="cnpjDataContainer" class="space-y-4">
+            <div id="cnpjDataContainer" class="space-y-4">
                 <!-- Os campos do CNPJ serão inseridos aqui pelo JavaScript -->
             </main>
         </main>
@@ -46,7 +46,7 @@
 
     <script src="dist/script.min.js" defer></script>
 
-    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-center text-xs text-gray-400 py-4 px-4 border-t border-gray-700">
+    <footer class="text-center text-xs text-gray-400 mt-12 pb-4">
         <p>
             Distribuído sob a <a href="LICENSE" target="_blank" rel="noopener noreferrer" class="hover:text-gray-200 underline">Licença MIT</a>.
         </p>
