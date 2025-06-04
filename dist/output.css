@@ -213,6 +213,9 @@
       max-width: 96rem;
     }
   }
+  .my-10 {
+    margin-block: calc(var(--spacing) * 10);
+  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -354,14 +357,14 @@
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
   }
+  .py-4 {
+    padding-block: calc(var(--spacing) * 4);
+  }
   .pt-3 {
     padding-top: calc(var(--spacing) * 3);
   }
   .pb-3 {
     padding-bottom: calc(var(--spacing) * 3);
-  }
-  .pb-4 {
-    padding-bottom: calc(var(--spacing) * 4);
   }
   .pl-4 {
     padding-left: calc(var(--spacing) * 4);
@@ -445,10 +448,10 @@
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
-  .hover\:text-gray-200 {
+  .hover\:text-blue-300 {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-gray-200);
+        color: var(--color-blue-300);
       }
     }
   }
@@ -578,6 +581,15 @@ body {
 .custom-button:active {
   transform: translateY(0px);
   box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+}
+#results {
+  width: 100%;
+  margin-top: 2rem;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+#results.animate-slideInUp {
+  opacity: 1;
 }
 .result-field-group {
   background-color: rgba(255, 255, 255, 0.03);
