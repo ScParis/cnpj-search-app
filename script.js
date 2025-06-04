@@ -6,6 +6,70 @@ const cnpjDataContainer = document.getElementById('cnpjDataContainer');
 const loadingDiv = document.getElementById('loading');
 const errorMessageDiv = document.getElementById('errorMessage');
 
+// Função para aplicar máscara de CNPJ
+function applyCNPJMask(value) {
+    // Remove todos os caracteres não numéricos
+    let numbers = value.replace(/\D/g, '');
+    
+    // Se tiver menos de 14 dígitos, retorna apenas os números
+    if (numbers.length < 14) return numbers;
+    
+    // Formata o CNPJ com pontos e barra
+    return numbers.replace(/^([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})$/, "$1.$2.$3/$4-$5");
+}
+
+// Função para validar se o valor é um CNPJ válido
+function isValidCNPJ(value) {
+    // Remove todos os caracteres não numéricos
+    const numbers = value.replace(/\D/g, '');
+    
+    // Se não tiver 14 dígitos, não é válido
+    if (numbers.length !== 14) return false;
+    
+    // Verifica se todos os dígitos são iguais (ex: 00000000000000)
+    if (/^(\d)\1+$/.test(numbers)) return false;
+    
+    // Calcula os dígitos verificadores
+    const weights1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    const weights2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    
+    function calculateDigit(numbers, weights) {
+        let sum = 0;
+        for (let i = 0; i < weights.length; i++) {
+            sum += parseInt(numbers[i]) * weights[i];
+        }
+        const remainder = sum % 11;
+        return remainder < 2 ? 0 : 11 - remainder;
+    }
+    
+    const digit1 = calculateDigit(numbers.substring(0, 12), weights1);
+    const digit2 = calculateDigit(numbers.substring(0, 12) + digit1, weights2);
+    
+    return numbers.substring(12) === digit1.toString() + digit2.toString();
+}
+
+// Adiciona eventos ao campo de CNPJ
+cnpjInput.addEventListener('input', function(e) {
+    // Remove caracteres não numéricos e limita a 14 dígitos
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 14) value = value.slice(0, 14);
+    
+    // Aplica a máscara
+    e.target.value = applyCNPJMask(value);
+});
+
+// Adiciona validação ao submit do formulário
+cnpjForm.addEventListener('submit', function(e) {
+    const cnpjValue = cnpjInput.value.replace(/\D/g, '');
+    if (!isValidCNPJ(cnpjValue)) {
+        e.preventDefault();
+        errorMessageDiv.textContent = 'CNPJ inválido. Por favor, digite um CNPJ válido.';
+        errorMessageDiv.style.display = 'block';
+        return;
+    }
+    errorMessageDiv.style.display = 'none';
+});
+
 // Mapeamento de chaves da API para rótulos amigáveis
 const fieldLabels = {
     "abertura": "Data de Abertura",
@@ -72,6 +136,11 @@ function createField(label, value) {
 
 // Função para exibir os dados do CNPJ no container
 function displayCnpjData(data) {
+    console.log('Iniciando displayCnpjData com dados:', data);
+    if (!data) {
+        console.error('Dados inválidos recebidos em displayCnpjData');
+        return;
+    }
     cnpjDataContainer.innerHTML = '';
     resultsDiv.style.opacity = 0; 
 
@@ -176,6 +245,7 @@ function isValidCNPJ(cnpj) {
 
 // Adiciona o listener para o evento de submit do formulário
 cnpjForm.addEventListener('submit', async function(event) {
+    console.log('Formulário submetido');
     event.preventDefault();
     resultsDiv.style.display = 'none';
     resultsDiv.classList.remove('animate-slideInUp');
@@ -235,7 +305,9 @@ cnpjForm.addEventListener('submit', async function(event) {
         if (actualData.status === "ERROR") {
             throw new Error(actualData.message || "Erro ao consultar o CNPJ na API ReceitaWS.");
         }
+        console.log('Dados recebidos da API:', actualData);
         if (actualData.status === "OK") {
+            console.log('Status OK, exibindo dados...');
             displayCnpjData(actualData);
         } else {
             // Trata outros status ou respostas inesperadas da API ReceitaWS

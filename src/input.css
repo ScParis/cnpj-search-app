@@ -1,3 +1,8 @@
+@import "tailwindcss";
+@source "../index.html";
+@source "../script.js";
+
+/* Conteúdo original de style.css abaixo */
 body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #1e1e2f 0%, #1c2541 50%, #0b132b 100%);
@@ -68,6 +73,18 @@ body {
 .custom-button:active {
     transform: translateY(0px);
     box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+}
+
+/* Container de resultados */
+#results {
+    width: 100%;
+    margin-top: 2rem;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#results.animate-slideInUp {
+    opacity: 1;
 }
 
 /* Estilo para campos de resultado */
