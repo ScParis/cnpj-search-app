@@ -136,6 +136,11 @@ function createField(label, value) {
 
 // Função para exibir os dados do CNPJ no container
 function displayCnpjData(data) {
+    console.log('Iniciando displayCnpjData com dados:', data);
+    if (!data) {
+        console.error('Dados inválidos recebidos em displayCnpjData');
+        return;
+    }
     cnpjDataContainer.innerHTML = '';
     resultsDiv.style.opacity = 0; 
 
@@ -240,6 +245,7 @@ function isValidCNPJ(cnpj) {
 
 // Adiciona o listener para o evento de submit do formulário
 cnpjForm.addEventListener('submit', async function(event) {
+    console.log('Formulário submetido');
     event.preventDefault();
     resultsDiv.style.display = 'none';
     resultsDiv.classList.remove('animate-slideInUp');
@@ -299,7 +305,9 @@ cnpjForm.addEventListener('submit', async function(event) {
         if (actualData.status === "ERROR") {
             throw new Error(actualData.message || "Erro ao consultar o CNPJ na API ReceitaWS.");
         }
+        console.log('Dados recebidos da API:', actualData);
         if (actualData.status === "OK") {
+            console.log('Status OK, exibindo dados...');
             displayCnpjData(actualData);
         } else {
             // Trata outros status ou respostas inesperadas da API ReceitaWS
