@@ -5,18 +5,20 @@ Uma aplicação web simples para consulta de dados de CNPJ (Cadastro Nacional da
 ## Funcionalidades
 
 - Consulta de informações de CNPJ em tempo real.
-- Validação de formato do CNPJ no lado do cliente antes da consulta.
+- Máscara automática de CNPJ (formato 00.000.000/0000-00).
+- Validação completa do CNPJ (formato e dígitos verificadores).
 - Interface limpa e responsiva, construída com Tailwind CSS v4.
 - Exibição organizada dos dados da empresa.
 - Feedback visual para carregamento e erros.
 - Funcionalidade de copiar valor do campo ao clicar.
 - Melhorias de acessibilidade (ARIA live regions).
+- Código JavaScript otimizado e minificado para melhor performance.
 
 ## Tecnologias Utilizadas
 
 - HTML5
 - CSS3 (com Tailwind CSS v4 e PostCSS para otimização)
-- JavaScript (Vanilla)
+- JavaScript (Vanilla) com minificação via Terser
 - API: [ReceitaWS](https://receitaws.com.br/) (acessada via proxy CORS [corsproxy.io](https://corsproxy.io/))
 - Node.js e npm para gerenciamento de dependências e build do CSS.
 - Git e GitHub para versionamento.
@@ -36,12 +38,14 @@ Uma aplicação web simples para consulta de dados de CNPJ (Cadastro Nacional da
     ```
     *Observação: Se você estiver em um sistema de arquivos que não suporta links simbólicos (como algumas configurações de drives externos ou WSL1), pode ser necessário usar `npm install --no-bin-links` como fizemos durante o desenvolvimento.*
 
-3.  **Compile o CSS:**
-    Para gerar o arquivo CSS otimizado pelo Tailwind CSS, execute o script de build:
+3.  **Compile os arquivos:**
+    Para gerar o CSS otimizado pelo Tailwind CSS e minificar o JavaScript, execute o script de build:
     ```bash
-    npm run build:css
+    npm run build
     ```
-    Isso irá processar `src/input.css` e gerar `dist/output.css`.
+    Isso irá:
+    - Processar `src/input.css` e gerar `dist/output.css`.
+    - Minificar `script.js` e gerar `dist/script.min.js`.
 
 ## Como Usar
 
