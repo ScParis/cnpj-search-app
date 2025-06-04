@@ -1,0 +1,109 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #1e1e2f 0%, #1c2541 50%, #0b132b 100%);
+    color: #e0e0e0;
+    overflow-x: hidden; /* Evita scroll horizontal causado por animações */
+}
+
+/* Estilo para o spinner de carregamento */
+.loader {
+    border: 4px solid rgba(243, 243, 243, 0.3); /* Cinza claro com transparência */
+    border-top: 4px solid #60a5fa; /* Azul Tailwind blue-400 */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1.2s linear infinite;
+    margin: 25px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slideInUp {
+    animation: slideInUp 0.7s ease-out forwards;
+}
+
+/* Estilos customizados para inputs e botões */
+.custom-input {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+    transition: all 0.3s ease;
+}
+.custom-input:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #60a5fa; /* Azul Tailwind blue-400 */
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3); /* Glow azul */
+}
+.custom-input::placeholder {
+    color: rgba(224, 224, 224, 0.6);
+}
+
+.custom-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); /* Azul gradiente */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+}
+.custom-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(96, 165, 250, 0.5);
+}
+.custom-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+}
+
+/* Estilo para campos de resultado */
+.result-field-group {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid #60a5fa;
+    transition: background-color 0.3s ease;
+}
+.result-field-group:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+.result-field-label {
+    color: #a0aec0; /* Cinza claro Tailwind gray-400 */
+    font-weight: 500;
+}
+.result-field-value {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+    cursor: text;
+}
+.result-field-value:focus {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: #60a5fa;
+}
+
+/* Título com fonte Orbitron */
+.futuristic-title {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(96, 165, 250, 0.7);
+}
+
+/* Container principal */
+.main-container {
+    background-color: rgba(17, 24, 39, 0.8); /* Cinza escuro Tailwind gray-900 com transparência */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
