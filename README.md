@@ -69,6 +69,3 @@ Se encontrar algum problema ou bug, por favor, crie uma [issue](https://github.c
 - **ScParis**
   - GitHub: [@ScParis](https://github.com/ScParis)
 
----
-
-*Lembre-se de atualizar este README com informações mais precisas sobre a API utilizada e quaisquer outras especificidades do seu projeto.*

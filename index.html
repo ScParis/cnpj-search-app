@@ -42,18 +42,44 @@
                 <!-- Os campos do CNPJ serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
+
+        <!-- Seção de Consulta CEP -->
+        <hr class="my-10 border-gray-700">
+
+        <h2 class="text-3xl sm:text-4xl font-bold text-center text-blue-300 mb-8 futuristic-title">CONSULTA CEP</h2>
+
+        <form id="cepForm" class="space-y-6">
+            <div>
+                <label for="cep" class="block text-sm font-medium text-gray-300 mb-1">CEP:</label>
+                <input type="text" id="cep" name="cep"
+                       class="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base custom-input"
+                       placeholder="00000-000" required>
+            </div>
+            <button type="submit"
+                    class="w-full custom-button text-white font-semibold py-3 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+                Buscar Endereço
+            </button>
+        </form>
+
+        <div id="cepLoading" class="loader" style="display: none;"></div>
+
+        <div id="cepErrorMessage"
+             class="mt-6 p-4 bg-red-700/30 border border-red-500 text-red-300 rounded-lg text-sm animate-fadeIn"
+             style="display: none;" aria-live="assertive">
+        </div>
+
+        <div id="cepResults" class="mt-10 animate-slideInUp" style="display: none;" aria-live="polite">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-blue-300 mb-6 border-b border-gray-700 pb-3 futuristic-title">DADOS DO ENDEREÇO</h2>
+            <div id="cepDataContainer" class="space-y-4">
+                <!-- Os campos do CEP serão inseridos aqui pelo JavaScript -->
+            </div>
+        </div>
     </div>
 
     <script src="dist/script.min.js" defer></script>
-
-    <footer class="text-center text-xs text-gray-400 mt-12 pb-4">
-        <p>
-            Distribuído sob a <a href="LICENSE" target="_blank" rel="noopener noreferrer" class="hover:text-gray-200 underline">Licença MIT</a>.
-        </p>
-        <p>
-            Powered by <a href="https://github.com/ScParis" target="_blank" rel="noopener noreferrer" class="hover:text-gray-200 underline">ScParis</a>.
-        </p>
-    </footer>
 
     <footer class="mt-12 text-center text-sm text-gray-400 w-full max-w-2xl px-4">
         <div class="py-4 border-t border-gray-700">
