@@ -254,7 +254,7 @@ function displayCepData(data) {
 // Adiciona listener para o evento de submit do formulário de CEP
 cepForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    const cepValue = cepInput.value.replace(/\D/g, ''); // Remove não numéricos para a API
+    const cepValue = cepInput.value.trim().replace(/\D/g, ''); // Remove não numéricos para a API
 
     if (cepValue.length !== 8) {
         cepErrorMessageDiv.textContent = 'CEP inválido. Deve conter 8 dígitos.';
