@@ -8,18 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dist/output.css">
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex flex-col min-h-screen bg-gray-900 text-gray-200">
 
-    <div class="main-container p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-2xl animate-fadeIn">
+    <main class="main-container p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-2xl animate-fadeIn">
         <h1 class="text-3xl sm:text-4xl font-bold text-center text-blue-300 mb-8 futuristic-title">CONSULTA CNPJ</h1>
 
         <form id="cnpjForm" class="space-y-6">
-            <div>
+            <main>
                 <label for="cnpj" class="block text-sm font-medium text-gray-300 mb-1">CNPJ:</label>
                 <input type="text" id="cnpj" name="cnpj"
                        class="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base custom-input"
                        placeholder="00.000.000/0000-00" required>
-            </div>
+            </main>
             <button type="submit"
                     class="w-full custom-button text-white font-semibold py-3 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -29,24 +29,24 @@
             </button>
         </form>
 
-        <div id="loading" class="loader" style="display: none;"></div>
+        <main id="loading" class="loader" style="display: none;"></main>
 
-        <div id="errorMessage"
+        <main id="errorMessage"
              class="mt-6 p-4 bg-red-700/30 border border-red-500 text-red-300 rounded-lg text-sm animate-fadeIn"
              style="display: none;" aria-live="assertive">
-        </div>
+        </main>
 
-        <div id="results" class="mt-10 animate-slideInUp" style="display: none;" aria-live="polite">
+        <main id="results" class="mt-10 animate-slideInUp" style="display: none;" aria-live="polite">
             <h2 class="text-2xl sm:text-3xl font-semibold text-blue-300 mb-6 border-b border-gray-700 pb-3 futuristic-title">DADOS DA EMPRESA</h2>
-            <div id="cnpjDataContainer" class="space-y-4">
+            <main id="cnpjDataContainer" class="space-y-4">
                 <!-- Os campos do CNPJ serão inseridos aqui pelo JavaScript -->
-            </div>
-        </div>
-    </div>
+            </main>
+        </main>
+    </main>
 
     <script src="dist/script.min.js" defer></script>
 
-    <footer class="text-center text-xs text-gray-400 mt-12 pb-4">
+    <footer class="fixed bottom-0 left-0 right-0 bg-gray-900 text-center text-xs text-gray-400 py-4 px-4 border-t border-gray-700">
         <p>
             Distribuído sob a <a href="LICENSE" target="_blank" rel="noopener noreferrer" class="hover:text-gray-200 underline">Licença MIT</a>.
         </p>
