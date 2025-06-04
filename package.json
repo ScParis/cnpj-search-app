@@ -5,7 +5,9 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "mkdir -p dist && node ./node_modules/postcss-cli/index.js ./src/input.css -o ./dist/output.css"
+    "build:css": "mkdir -p dist && node ./node_modules/postcss-cli/index.js ./src/input.css -o ./dist/output.css",
+    "build:js": "mkdir -p dist && npx terser script.js -c -m -o dist/script.min.js",
+    "build": "npm run build:css && npm run build:js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,7 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.4",
     "postcss-cli": "^11.0.1",
-    "tailwindcss": "^4.1.8"
+    "tailwindcss": "^4.1.8",
+    "terser": "^5.40.0"
   }
 }

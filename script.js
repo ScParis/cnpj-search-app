@@ -1,10 +1,83 @@
 // Seletores de elementos do DOM
+// CNPJ
 const cnpjForm = document.getElementById('cnpjForm');
 const cnpjInput = document.getElementById('cnpj');
 const resultsDiv = document.getElementById('results');
 const cnpjDataContainer = document.getElementById('cnpjDataContainer');
 const loadingDiv = document.getElementById('loading');
 const errorMessageDiv = document.getElementById('errorMessage');
+
+// CEP
+const cepForm = document.getElementById('cepForm');
+const cepInput = document.getElementById('cep');
+const cepResultsDiv = document.getElementById('cepResults');
+const cepDataContainer = document.getElementById('cepDataContainer');
+const cepLoadingDiv = document.getElementById('cepLoading');
+const cepErrorMessageDiv = document.getElementById('cepErrorMessage');
+
+// Função para aplicar máscara de CNPJ
+function applyCNPJMask(value) {
+    // Remove todos os caracteres não numéricos
+    let numbers = value.replace(/\D/g, '');
+    
+    // Se tiver menos de 14 dígitos, retorna apenas os números
+    if (numbers.length < 14) return numbers;
+    
+    // Formata o CNPJ com pontos e barra
+    return numbers.replace(/^([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})$/, "$1.$2.$3/$4-$5");
+}
+
+// Função para validar se o valor é um CNPJ válido
+function isValidCNPJ(value) {
+    // Remove todos os caracteres não numéricos
+    const numbers = value.replace(/\D/g, '');
+    
+    // Se não tiver 14 dígitos, não é válido
+    if (numbers.length !== 14) return false;
+    
+    // Verifica se todos os dígitos são iguais (ex: 00000000000000)
+    if (/^(\d)\1+$/.test(numbers)) return false;
+    
+    // Calcula os dígitos verificadores
+    const weights1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    const weights2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    
+    function calculateDigit(numbers, weights) {
+        let sum = 0;
+        for (let i = 0; i < weights.length; i++) {
+            sum += parseInt(numbers[i]) * weights[i];
+        }
+        const remainder = sum % 11;
+        return remainder < 2 ? 0 : 11 - remainder;
+    }
+    
+    const digit1 = calculateDigit(numbers.substring(0, 12), weights1);
+    const digit2 = calculateDigit(numbers.substring(0, 12) + digit1, weights2);
+    
+    return numbers.substring(12) === digit1.toString() + digit2.toString();
+}
+
+// Adiciona eventos ao campo de CNPJ
+cnpjInput.addEventListener('input', function(e) {
+    // Remove caracteres não numéricos e limita a 14 dígitos
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 14) value = value.slice(0, 14);
+    
+    // Aplica a máscara
+    e.target.value = applyCNPJMask(value);
+});
+
+// Adiciona validação ao submit do formulário de CNPJ
+cnpjForm.addEventListener('submit', function(e) {
+    const cnpjValue = cnpjInput.value.replace(/\D/g, '');
+    if (!isValidCNPJ(cnpjValue)) {
+        e.preventDefault();
+        errorMessageDiv.textContent = 'CNPJ inválido. Por favor, digite um CNPJ válido.';
+        errorMessageDiv.style.display = 'block';
+        return;
+    }
+    errorMessageDiv.style.display = 'none';
+});
 
 // Mapeamento de chaves da API para rótulos amigáveis
 const fieldLabels = {
@@ -72,6 +145,11 @@ function createField(label, value) {
 
 // Função para exibir os dados do CNPJ no container
 function displayCnpjData(data) {
+    console.log('Iniciando displayCnpjData com dados:', data);
+    if (!data) {
+        console.error('Dados inválidos recebidos em displayCnpjData');
+        return;
+    }
     cnpjDataContainer.innerHTML = '';
     resultsDiv.style.opacity = 0; 
 
@@ -123,9 +201,97 @@ function displayCnpjData(data) {
     resultsDiv.classList.add('animate-slideInUp');
 }
 
+// Função para aplicar máscara de CEP (00000-000)
+function applyCEPMask(value) {
+    let numbers = value.replace(/\D/g, '');
+    if (numbers.length > 8) numbers = numbers.slice(0, 8);
+
+    if (numbers.length > 5) {
+        return numbers.replace(/^(\d{5})(\d{1,3})$/, '$1-$2');
+    }
+    return numbers;
+}
+
+// Adiciona evento ao campo de CEP para máscara
+cepInput.addEventListener('input', function(e) {
+    e.target.value = applyCEPMask(e.target.value);
+});
+
+// Função para exibir os dados do CEP
+function displayCepData(data) {
+    if (!data) {
+        console.error('Dados inválidos recebidos em displayCepData');
+        cepErrorMessageDiv.textContent = 'Não foi possível exibir os dados do CEP.';
+        cepErrorMessageDiv.style.display = 'block';
+        cepResultsDiv.style.display = 'none';
+        return;
+    }
+    cepDataContainer.innerHTML = '';
+    cepResultsDiv.style.opacity = 0;
+
+    const cepFieldLabels = {
+        "cep": "CEP",
+        "state": "Estado (UF)",
+        "city": "Cidade",
+        "neighborhood": "Bairro",
+        "street": "Rua/Logradouro",
+        "service": "Serviço de Consulta"
+        // Adicionar location se necessário, mas é um objeto complexo
+    };
+
+    Object.entries(data).forEach(([key, value]) => {
+        if (key === 'location') return; // Pular objeto de localização por enquanto
+        const label = cepFieldLabels[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        cepDataContainer.appendChild(createField(label, value !== null && value !== undefined ? value : "N/A"));
+    });
+
+    cepResultsDiv.style.display = 'block';
+    void cepResultsDiv.offsetWidth; // Forçar reflow para garantir que a animação ocorra
+    cepResultsDiv.style.opacity = 1;
+    cepResultsDiv.classList.add('animate-slideInUp');
+}
+
+// Adiciona listener para o evento de submit do formulário de CEP
+cepForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const cepValue = cepInput.value.replace(/\D/g, ''); // Remove não numéricos para a API
+
+    if (cepValue.length !== 8) {
+        cepErrorMessageDiv.textContent = 'CEP inválido. Deve conter 8 dígitos.';
+        cepErrorMessageDiv.style.display = 'block';
+        cepResultsDiv.style.display = 'none';
+        return;
+    }
+
+    cepLoadingDiv.style.display = 'block';
+    cepResultsDiv.style.display = 'none';
+    cepErrorMessageDiv.style.display = 'none';
+
+    try {
+        const response = await fetch(`https://brasilapi.com.br/api/cep/v2/${cepValue}`);
+        if (!response.ok) {
+            if (response.status === 404) {
+                throw new Error('CEP não encontrado.');
+            } else {
+                const errorData = await response.json().catch(() => ({ message: 'Erro ao consultar CEP.' }));
+                throw new Error(errorData.message || `Erro ${response.status} ao consultar CEP.`);
+            }
+        }
+        const data = await response.json();
+        displayCepData(data);
+    } catch (error) {
+        console.error('Erro ao buscar CEP:', error);
+        cepErrorMessageDiv.textContent = error.message;
+        cepErrorMessageDiv.style.display = 'block';
+    } finally {
+        cepLoadingDiv.style.display = 'none';
+    }
+});
+
+
 // Função para validar CNPJ (dígitos verificadores)
 function isValidCNPJ(cnpj) {
-    cnpj = cnpj.replace(/[^\d]+/g,'');
+        cnpj = cnpj.replace(/[^\d]+/g,'');
 
     if (cnpj == '') return false;
     if (cnpj.length != 14) return false;
@@ -176,6 +342,7 @@ function isValidCNPJ(cnpj) {
 
 // Adiciona o listener para o evento de submit do formulário
 cnpjForm.addEventListener('submit', async function(event) {
+    console.log('Formulário submetido');
     event.preventDefault();
     resultsDiv.style.display = 'none';
     resultsDiv.classList.remove('animate-slideInUp');
@@ -235,7 +402,9 @@ cnpjForm.addEventListener('submit', async function(event) {
         if (actualData.status === "ERROR") {
             throw new Error(actualData.message || "Erro ao consultar o CNPJ na API ReceitaWS.");
         }
+        console.log('Dados recebidos da API:', actualData);
         if (actualData.status === "OK") {
+            console.log('Status OK, exibindo dados...');
             displayCnpjData(actualData);
         } else {
             // Trata outros status ou respostas inesperadas da API ReceitaWS
