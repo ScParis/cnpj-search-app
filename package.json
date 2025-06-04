@@ -4,14 +4,17 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "mkdir -p dist && node ./node_modules/postcss-cli/index.js ./src/input.css -o ./dist/output.css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.8",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.4",
+    "postcss-cli": "^11.0.1",
     "tailwindcss": "^4.1.8"
   }
 }
